@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
-import * as apiService from './services/api';
+/* import * as apiService from './services/api'; */
 import './App.css';
 
 function App() {
