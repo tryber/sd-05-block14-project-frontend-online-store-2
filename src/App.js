@@ -1,5 +1,5 @@
 import React from 'react';
-import Busca from './components/Busca'
+import Busca from './components/Busca';
 import './App.css';
 
 function App() {

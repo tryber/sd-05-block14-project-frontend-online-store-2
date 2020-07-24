@@ -4,21 +4,13 @@ import * as apiFunction from '../services/api';
 class Busca extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      options: [],
-    };
+    this.state = { options: [] };
   }
 
   componentDidMount() {
     apiFunction.getCategories().then((response) => {
-      this.setState({
-        options: response,
-      });
+      this.setState({ options: response });
     });
-  }
-
-  filter(option, texto) {
-    apiFunction.getProductsFromCategoryAndQuery(option, texto);
   }
 
   render() {
