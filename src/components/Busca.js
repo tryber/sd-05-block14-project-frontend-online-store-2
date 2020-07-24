@@ -1,42 +1,42 @@
 import React from 'react';
-import * as apiFunction from '../services/api'
+import * as apiFunction from '../services/api';
 
 class Busca extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-    options : []
-    }
-  }
-  
-  componentDidMount() {
-    apiFunction.getCategories().then(response => {
-      this.setState({
-        options: response
-      })
-    })
+      options: [],
+    };
   }
 
-  filter (option, texto) {
-    apiFunction.getProductsFromCategoryAndQuery(option, texto)
+  componentDidMount() {
+    apiFunction.getCategories().then((response) => {
+      this.setState({
+        options: response,
+      });
+    });
+  }
+
+  filter(option, texto) {
+    apiFunction.getProductsFromCategoryAndQuery(option, texto);
   }
 
   render() {
-  const { options } = this.state
-  console.log(options)
-  return (
-    <div>
-      <form>
-        <h1>Digite algum termo de pesquisa ou escolha uma categoria.</h1>
-        <input type='text' />
-        <select>
-          {options.map(categoria => 
-            <option key={categoria.id}>{categoria.name}</option>
-          )}
-        </select>
-      </form>
-    </div>
-  )
+    const { options } = this.state;
+    console.log(options);
+    return (
+      <div>
+        <form>
+          <h1>Digite algum termo de pesquisa ou escolha uma categoria.</h1>
+          <input type="text" />
+          <select>
+            {options.map((categoria) => (
+              <option key={categoria.id}>{categoria.name}</option>
+            ))}
+          </select>
+        </form>
+      </div>
+    );
   }
 }
 
