@@ -17,11 +17,9 @@ class Busca extends React.Component {
   }
 
   componentDidMount() {
-    apiFunction.getCategories().then((response) => {
-      this.setState({
+    apiFunction.getCategories().then((response) => { this.setState({
         options: [{ id: 1, name: 'Selecione uma categoria' }, ...response],
-      });
-    });
+      })});
   }
 
   capturingText(event) {
@@ -29,9 +27,7 @@ class Busca extends React.Component {
   }
 
   capturingCategory(event) {
-    const id = this.state.options.find(
-      (categoria) => categoria.name === event.target.value
-    ).id;
+    const id = this.state.options.find(categoria => categoria.name === event.target.value).id;
     this.setState({
       searchCategoryName: event.target.value,
       searchCategoryId: id,
@@ -56,12 +52,7 @@ class Busca extends React.Component {
   }
 
   render() {
-    const {
-      options,
-      searchText,
-      searchCategory,
-      produtosPorCategoria,
-    } = this.state;
+    const { options, searchText, searchCategory, produtosPorCategoria } = this.state;
     return (
       <div>
         <form>
