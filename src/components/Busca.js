@@ -17,9 +17,11 @@ class Busca extends React.Component {
   }
 
   componentDidMount() {
-    apiFunction.getCategories().then((response) => { this.setState({
+    apiFunction.getCategories().then((response) => { 
+      this.setState({
         options: [{ id: 1, name: 'Selecione uma categoria' }, ...response],
-      })});
+      });
+    });
   }
 
   capturingText(event) {
@@ -27,7 +29,7 @@ class Busca extends React.Component {
   }
 
   capturingCategory(event) {
-    const id = this.state.options.find(categoria => categoria.name === event.target.value).id;
+    const id = this.state.options.find((categoria) => categoria.name === event.target.value).id;
     this.setState({
       searchCategoryName: event.target.value,
       searchCategoryId: id,
@@ -42,7 +44,7 @@ class Busca extends React.Component {
     apiFunction
       .getProductsFromCategoryAndQuery(
         this.state.searchCategoryId,
-        this.state.searchText
+        this.state.searchText,
       )
       .then((resolve) => {
         console.log(resolve.results);
@@ -52,7 +54,7 @@ class Busca extends React.Component {
   }
 
   render() {
-    const { options, searchText, searchCategory, produtosPorCategoria } = this.state;
+    const { options, produtosPorCategoria } = this.state;
     return (
       <div>
         <form>
@@ -70,7 +72,7 @@ class Busca extends React.Component {
           <input onClick={this.handleClick} type="button" value="Buscar" />
           {produtosPorCategoria.map((produto) => (
             <div key={produto.id}>
-              <img src={produto.thumbnail} />
+              <img src={produto.thumbnail} alt={produto.title} />
               <h4>{produto.title}</h4>
               <p>R${produto.price.toFixed(2)}</p>
             </div>
