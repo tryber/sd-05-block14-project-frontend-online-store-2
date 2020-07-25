@@ -17,10 +17,8 @@ class Busca extends React.Component {
   }
 
   componentDidMount() {
-    apiFunction.getCategories().then((response) => { 
-      this.setState({
-        options: [{ id: 1, name: 'Selecione uma categoria' }, ...response],
-      });
+    apiFunction.getCategories().then((response) => {
+      this.setState({ options: [{ id: 1, name: 'Selecione uma categoria' }, ...response] });
     });
   }
 
