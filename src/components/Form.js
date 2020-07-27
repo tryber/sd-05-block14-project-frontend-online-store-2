@@ -34,19 +34,20 @@ class Form extends React.Component {
             Digite algum termo de pesquisa ou escolha uma categoria.
           </h1>
           {/*OT = OnText OC= OnCategory  OS=OnSearch*/}
-          <input type="text" name="searchText" onChange={this.props.OT} />
-          <input onClick={this.props.OS} type="button" value="Buscar" />
+          <input type="text" name="searchText" onChange={this.props.OT} data-testid='query-input'/>
+          <input onClick={this.props.OS} type="button" value="Buscar" data-testeid='query-button'/>
           <Link to="/shopping-cart">
             <GiShoppingCart size={44} data-testid="shopping-cart-button" />
           </Link>
         </form>
-        <ul className="lista-categorias" name="searchCategory" onClick={this.props.OC}>
-        {listaDeCategorias.map((categoria) => (
-          <li className="lista-style" key={categoria.id} data-testid="category" id={categoria.id}>
-            {categoria.name}
-          </li>
+        <div className='col-8 text-start'>
+          {listaDeCategorias.map((cat) => (
+          <div>
+          <a data-testid="category" id={cat.id} onClick={this.props.OC}>{cat.name}</a>
+          <br/>
+          </div>
         ))}
-        </ul>
+        </div>
       </div>
     );
   }
