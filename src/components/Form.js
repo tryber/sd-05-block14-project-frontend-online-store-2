@@ -1,17 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import * as apiFunction from '../services/api';
 import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { GiShoppingCart } from '../../node_modules/react-icons/gi';
-import { Link } from 'react-router-dom';
-import MiniCarrinho from './MiniCarrinho';
 
 class Form extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      listaDeCategorias: [],
-    };
+    this.state = { listaDeCategorias: [] };
   }
 
   componentDidMount() {
@@ -33,19 +30,19 @@ class Form extends React.Component {
           <h1 data-testid="home-initial-message">
             Digite algum termo de pesquisa ou escolha uma categoria.
           </h1>
-          {/*OT = OnText OC= OnCategory  OS=OnSearch*/}
-          <input type="text" name="searchText" onChange={this.props.OT} data-testid='query-input'/>
-          <input onClick={this.props.OS} type="button" value="Buscar" data-testeid='query-button'/>
+          {/* OT = OnText OC= OnCategory  OS=OnSearch */}
+          <input type="text" name="searchText" onChange={this.props.OT} data-testid="query-input" />
+          <input onClick={this.props.OS} type="button" value="Buscar" data-testeid="query-button" />
           <Link to="/shopping-cart">
             <GiShoppingCart size={44} data-testid="shopping-cart-button" />
           </Link>
         </form>
-        <div className='col-8 text-start'>
+        <div className="col-8 text-start">
           {listaDeCategorias.map((cat) => (
-          <div>
-          <a data-testid="category" id={cat.id} onClick={this.props.OC}>{cat.name}</a>
-          <br/>
-          </div>
+            <div>
+              <button data-testid="category" id={cat.id} onClick={this.props.OC}>{cat.name}</button>
+              <br />
+            </div>
         ))}
         </div>
       </div>

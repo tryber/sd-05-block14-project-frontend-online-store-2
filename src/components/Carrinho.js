@@ -2,22 +2,21 @@ import React from 'react';
 import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { GiShoppingCart } from '../../node_modules/react-icons/gi';
-import { Link } from 'react-router-dom';
-import Busca from './Busca';
 
 class Carrinho extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      produto: [],
-    };
+    this.state = { produto: [] };
+    this.starter2 = this.starter2.bind(this)
   }
 
   componentDidMount() {
+    this.starter2()
+  }
+
+  starter2() {
     const listaDeProdutos = JSON.parse(localStorage.getItem('produtos'));
-    this.setState({
-      produto: listaDeProdutos,
-    });
+    this.setState({ produto: listaDeProdutos });
   }
 
   render() {
@@ -35,11 +34,11 @@ class Carrinho extends React.Component {
         <GiShoppingCart />
         <div>
           <ul>
-            {produto.map((produto) => (
+            {produto.map((each) => (
               <li>
-                <p>{produto.title}</p>
-                <img src={produto.thumbnail} />
-                <p>{produto.price}</p>
+                <p>{each.title}</p>
+                <img src={each.thumbnail} alt={each.title} />
+                <p>{each.price}</p>
               </li>
             ))}
           </ul>

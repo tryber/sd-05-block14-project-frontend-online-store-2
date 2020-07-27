@@ -15,7 +15,7 @@ class Busca extends React.Component {
       respostaDaApi: [],
       produtosSelecionados: [],
     };
-    this.starter = this.starter.bind(this)
+    this.starter = this.starter.bind(this);
     this.capturingText = this.capturingText.bind(this);
     this.capturingCategory = this.capturingCategory.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -23,7 +23,7 @@ class Busca extends React.Component {
   }
 
   componentDidMount() {
-    this.starter()
+    this.starter();
   }
 
   starter() {
@@ -68,17 +68,17 @@ class Busca extends React.Component {
     this.setState({ produtosSelecionados: cart });
     localStorage.setItem(
       'produtos',
-      JSON.stringify(this.state.produtosSelecionados)
+      JSON.stringify(this.state.produtosSelecionados),
     );
   }
 
   render() {
     const { respostaDaApi, produtosSelecionados } = this.state;
-    console.log(produtosSelecionados)
+    console.log(produtosSelecionados);
     return (
       <div className="d-flex">
         <div>
-          {/*OT = OnText   OC= OnCategory  OS=OnSearch*/}
+          {/* OT = OnText   OC= OnCategory  OS=OnSearch */}
           <Form
             OT={this.capturingText}
             OC={this.capturingCategory}
@@ -87,10 +87,10 @@ class Busca extends React.Component {
         </div>
         <div>
           {respostaDaApi.map((produto) => (
-            <div key={produto.id} data-testeid='product'>
-              <img src={produto.thumbnail} alt={produto.title} data-testeid='product'/>
-              <h4 data-testeid='product'>{produto.title}</h4>
-              <p data-testeid='product'>R${produto.price.toFixed(2)}</p>
+            <div key={produto.id} data-testeid="product">
+              <img src={produto.thumbnail} alt={produto.title} data-testeid="product" />
+              <h4 data-testeid="product">{produto.title}</h4>
+              <p data-testeid="product">R${produto.price.toFixed(2)}</p>
               <input
                 type="button"
                 value="Adicionar"
