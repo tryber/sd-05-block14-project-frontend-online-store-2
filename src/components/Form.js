@@ -33,7 +33,7 @@ class Form extends React.Component {
           <h1 data-testid="home-initial-message">
             Digite algum termo de pesquisa ou escolha uma categoria.
           </h1>
-          {/*OT = OnText   OC= OnCategory  OS=OnSearch*/}
+          {/*OT = OnText OC= OnCategory  OS=OnSearch*/}
           <input type="text" name="searchText" onChange={this.props.OT} />
           <input onClick={this.props.OS} type="button" value="Buscar" />
           <Link to="/shopping-cart">
