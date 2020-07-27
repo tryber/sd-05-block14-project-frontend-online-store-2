@@ -7,11 +7,11 @@ class Carrinho extends React.Component {
   constructor(props) {
     super(props);
     this.state = { produto: [] };
-    this.starter2 = this.starter2.bind(this)
+    this.starter2 = this.starter2.bind(this);
   }
 
   componentDidMount() {
-    this.starter2()
+    this.starter2();
   }
 
   starter2() {
