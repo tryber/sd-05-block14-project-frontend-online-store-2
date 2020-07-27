@@ -2,10 +2,8 @@ import React from 'react';
 import * as apiFunction from '../services/api';
 import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { GiShoppingCart } from '../../node_modules/react-icons/gi';
-import { Link } from 'react-router-dom';
 import MiniCarrinho from './MiniCarrinho';
-import Form from './Form'
+import Form from './Form';
 
 class Busca extends React.Component {
   constructor(props) {
@@ -25,10 +23,9 @@ class Busca extends React.Component {
 
   componentDidMount() {
     const listaDeProdutos = JSON.parse(localStorage.getItem('produtos'));
-    if (listaDeProdutos != undefined)
-      this.setState({
-        produtosSelecionados: listaDeProdutos,
-      });
+    if (!listaDeProdutos) {
+      this.setState({ produtosSelecionados: listaDeProdutos });
+    }
   }
 
   capturingText(event) {
@@ -50,7 +47,7 @@ class Busca extends React.Component {
     apiFunction
       .getProductsFromCategoryAndQuery(
         this.state.searchCategoryId,
-        this.state.searchText
+        this.state.searchText,
       )
       .then((resolve) => {
         this.setState({ respostaDaApi: resolve.results });
@@ -60,13 +57,10 @@ class Busca extends React.Component {
 
   handleCart(event) {
     const item = this.state.respostaDaApi.find(
-      (produto) => produto.id === event.target.name
-    );
+      (produto) => produto.id === event.target.name);
     const cart = this.state.produtosSelecionados;
     cart.push(item);
-    this.setState({
-      produtosSelecionados: cart,
-    });
+    this.setState({ produtosSelecionados: cart });
     localStorage.setItem(
       'produtos',
       JSON.stringify(this.state.produtosSelecionados)
@@ -79,7 +73,11 @@ class Busca extends React.Component {
       <div className="d-flex">
         <div>
           {/*OT = OnText   OC= OnCategory  OS=OnSearch*/}
-          <Form OT={this.capturingText} OC={this.capturingCategory} OS={this.handleClick} />
+          <Form
+            OT={this.capturingText}
+            OC={this.capturingCategory}
+            OS={this.handleClick}
+          />
         </div>
         <div>
           {respostaDaApi.map((produto) => (
