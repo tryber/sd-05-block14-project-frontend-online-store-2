@@ -20,3 +20,4 @@ export async function getProductsFromCategoryAndQuery(categoryId, query) {
 
   return fetch(url).then((response) => response.json());
 }
+
