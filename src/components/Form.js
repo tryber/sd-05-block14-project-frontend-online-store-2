@@ -13,7 +13,7 @@ class Form extends React.Component {
 
   componentDidMount() {
     api.getCategories().then((response) => {
-      this.setState({ listaDeCategorias: [...response] })
+      this.setState({ listaDeCategorias: [...response] });
     });
   }
 
