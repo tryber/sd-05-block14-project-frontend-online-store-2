@@ -33,7 +33,7 @@ class Form extends React.Component {
           </Link>
           <span data-testid="shopping-cart-product-quantity">{this.props.QC}</span>
         </form>
-        <div key='1' className="col-8 text-start">
+        <div key="1" className="col-8 text-start">
           {listaDeCategorias.map((cat) => (
             <div key={cat.id}>
               <button data-testid="category" id={cat.id} onClick={this.props.OC}>{cat.name}</button>
