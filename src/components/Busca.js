@@ -1,5 +1,5 @@
 import React from 'react';
-import * as apiFunction from '../services/api';
+import * as api from '../services/api';
 import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import MiniCarrinho from './MiniCarrinho';
@@ -42,14 +42,18 @@ class Busca extends React.Component {
       searchCategoryName: event.target.innerHTML,
       searchCategoryId: event.target.id,
     });
-
-    if (event.target.value === 'Selecione uma categoria') {
-      this.setState({ respostaDaApi: [] });
-    }
+    api
+      .getProductsFromCategoryAndQuery(
+        this.state.searchCategoryId,
+        this.state.searchText,
+      )
+      .then((resolve) => {
+        this.setState({ respostaDaApi: resolve.results });
+      });
   }
 
   handleClick(event) {
-    apiFunction
+    api
       .getProductsFromCategoryAndQuery(
         this.state.searchCategoryId,
         this.state.searchText,
@@ -88,7 +92,7 @@ class Busca extends React.Component {
         <div>
           {respostaDaApi.map((produto) => (
             <div key={produto.id} data-testeid="product">
-              <img src={produto.thumbnail} alt={produto.title} data-testeid="product" />
+              <img src={produto.thumbnail} alt={produto.title} data-testid="product" />
               <h4 data-testeid="product">{produto.title}</h4>
               <p data-testeid="product">R${produto.price.toFixed(2)}</p>
               <input
@@ -96,6 +100,7 @@ class Busca extends React.Component {
                 value="Adicionar"
                 name={produto.id}
                 onClick={this.handleCart}
+                data-testid='product-add-to-cart'
               />
             </div>
           ))}

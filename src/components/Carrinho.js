@@ -35,8 +35,8 @@ class Carrinho extends React.Component {
         <div>
           <ul>
             {produto.map((each) => (
-              <li>
-                <p>{each.title}</p>
+              <li key={each.title}>
+                <p data-testid="shopping-cart-product-name">{each.title}</p>
                 <img src={each.thumbnail} alt={each.title} />
                 <p>{each.price}</p>
               </li>
