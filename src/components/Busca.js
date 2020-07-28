@@ -79,7 +79,6 @@ class Busca extends React.Component {
     return (
       <div className="d-flex">
         <div>
-          {/* OT = OnText   OC= OnCategory  OS=OnSearch */}
           <Form
             QC={produtosSelecionados.length}
             OT={this.capturingText}
@@ -90,9 +89,9 @@ class Busca extends React.Component {
         <div>
           {respostaDaApi.map((produto) => (
             <div key={produto.id} data-testid="product">
-              <img src={produto.thumbnail} alt={produto.title} data-testid="product" />
-              <h4 data-testid="product">{produto.title}</h4>
-              <p data-testid="product">R${produto.price.toFixed(2)}</p>
+              <img src={produto.thumbnail} alt={produto.title} />
+              <h4 >{produto.title}</h4>
+              <p>R${produto.price.toFixed(2)}</p>
 
               <input
                 type="button"

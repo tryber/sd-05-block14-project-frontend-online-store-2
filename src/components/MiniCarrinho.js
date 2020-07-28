@@ -8,6 +8,7 @@ class MiniCarrinho extends React.Component {
     return (
       <div>
         <GiShoppingCart />
+        <span data-testid="shopping-cart-size">{this.props.lista.length}</span>
         <div>
           <ul key="lista">
             {this.props.lista.map((produto) => (
