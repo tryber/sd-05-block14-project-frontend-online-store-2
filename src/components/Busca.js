@@ -33,8 +33,20 @@ class Busca extends React.Component {
     }
   }
 
+
   capturingText(event) {
     this.setState({ searchText: event.target.value });
+  }
+
+  apiRequest() {
+    api
+      .getProductsFromCategoryAndQuery(
+        this.state.searchCategoryId,
+        this.state.searchText,
+      )
+      .then((resolve) => {
+        this.setState({ respostaDaApi: resolve.results });
+      });
   }
 
   capturingCategory(event) {
@@ -42,25 +54,11 @@ class Busca extends React.Component {
       searchCategoryName: event.target.innerHTML,
       searchCategoryId: event.target.id,
     });
-    api
-      .getProductsFromCategoryAndQuery(
-        this.state.searchCategoryId,
-        this.state.searchText,
-      )
-      .then((resolve) => {
-        this.setState({ respostaDaApi: resolve.results });
-      });
+    this.apiRequest();
   }
 
   handleClick(event) {
-    api
-      .getProductsFromCategoryAndQuery(
-        this.state.searchCategoryId,
-        this.state.searchText,
-      )
-      .then((resolve) => {
-        this.setState({ respostaDaApi: resolve.results });
-      });
+    this.apiRequest();
     event.preventDefault();
   }
 
@@ -78,12 +76,12 @@ class Busca extends React.Component {
 
   render() {
     const { respostaDaApi, produtosSelecionados } = this.state;
-    console.log(produtosSelecionados);
     return (
       <div className="d-flex">
         <div>
           {/* OT = OnText   OC= OnCategory  OS=OnSearch */}
           <Form
+            QC={produtosSelecionados.length}
             OT={this.capturingText}
             OC={this.capturingCategory}
             OS={this.handleClick}
@@ -91,16 +89,18 @@ class Busca extends React.Component {
         </div>
         <div>
           {respostaDaApi.map((produto) => (
-            <div key={produto.id} data-testeid="product">
+            <div key={produto.id} data-testid="product">
               <img src={produto.thumbnail} alt={produto.title} data-testid="product" />
-              <h4 data-testeid="product">{produto.title}</h4>
-              <p data-testeid="product">R${produto.price.toFixed(2)}</p>
+              <h4 data-testid="product">{produto.title}</h4>
+              <p data-testid="product">R${produto.price.toFixed(2)}</p>
+
               <input
                 type="button"
                 value="Adicionar"
                 name={produto.id}
                 onClick={this.handleCart}
-                data-testid='product-add-to-cart'
+                data-testid="product-add-to-cart"
+
               />
             </div>
           ))}
