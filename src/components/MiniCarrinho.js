@@ -2,8 +2,6 @@ import React from 'react';
 import { GiShoppingCart } from 'react-icons/gi';
 import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-
-let counter = 0
 class MiniCarrinho extends React.Component {
   render() {
     return (

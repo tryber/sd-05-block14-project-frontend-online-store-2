@@ -89,7 +89,7 @@ class Busca extends React.Component {
         <div>
           {respostaDaApi.map((produto) => (
             <div key={produto.id} data-testid="product">
-              <img src={produto.thumbnail} alt={produto.title}/>
+              <img src={produto.thumbnail} alt={produto.title} />
               <h4 >{produto.title}</h4>
               <p>R${produto.price.toFixed(2)}</p>
 
