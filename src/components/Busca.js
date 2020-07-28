@@ -1,5 +1,5 @@
 import React from 'react';
-import * as apiFunction from '../services/api';
+import * as api from '../services/api';
 
 class Busca extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class Busca extends React.Component {
   }
 
   componentDidMount() {
-    apiFunction.getCategories().then((response) => {
+    api.getCategories().then((response) => {
       this.setState({ options: [{ id: 1, name: 'Selecione uma categoria' }, ...response] });
     });
   }
