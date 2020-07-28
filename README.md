@@ -232,7 +232,7 @@ O retorno desse endpoint será algo no formato:
                 {
                     "id": "MODEL",
                     "name": "Modelo",
-                    "value_id": "6444567",
+                    "value_id": "644467",
                     "value_name": "G7 Play",
                     "value_struct": null,
                     "values": [
