@@ -1,25 +1,36 @@
 import React from 'react';
 import * as apiFunction from '../services/api';
+import '../App.css';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import MiniCarrinho from './MiniCarrinho';
+import Form from './Form';
 
 class Busca extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      options: [{ id: 1, name: 'Todos' }],
       searchText: '',
       searchCategoryName: '',
       searchCategoryId: '',
-      produtosPorCategoria: [],
+      respostaDaApi: [],
+      produtosSelecionados: [],
     };
+    this.starter = this.starter.bind(this);
     this.capturingText = this.capturingText.bind(this);
     this.capturingCategory = this.capturingCategory.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleCart = this.handleCart.bind(this);
   }
 
   componentDidMount() {
-    apiFunction.getCategories().then((response) => {
-      this.setState({ options: [{ id: 1, name: 'Selecione uma categoria' }, ...response] });
-    });
+    this.starter();
+  }
+
+  starter() {
+    const listaDeProdutos = JSON.parse(localStorage.getItem('produtos'));
+    if (listaDeProdutos) {
+      this.setState({ produtosSelecionados: listaDeProdutos });
+    }
   }
 
   capturingText(event) {
@@ -27,14 +38,13 @@ class Busca extends React.Component {
   }
 
   capturingCategory(event) {
-    const id = this.state.options.find((categoria) => categoria.name === event.target.value).id;
     this.setState({
-      searchCategoryName: event.target.value,
-      searchCategoryId: id,
+      searchCategoryName: event.target.innerHTML,
+      searchCategoryId: event.target.id,
     });
 
     if (event.target.value === 'Selecione uma categoria') {
-      this.setState({ produtosPorCategoria: [] });
+      this.setState({ respostaDaApi: [] });
     }
   }
 
@@ -45,37 +55,52 @@ class Busca extends React.Component {
         this.state.searchText,
       )
       .then((resolve) => {
-        console.log(resolve.results);
-        this.setState({ produtosPorCategoria: resolve.results });
+        this.setState({ respostaDaApi: resolve.results });
       });
     event.preventDefault();
   }
 
+  handleCart(event) {
+    const item = this.state.respostaDaApi.find(
+      (produto) => produto.id === event.target.name);
+    const cart = this.state.produtosSelecionados;
+    cart.push(item);
+    this.setState({ produtosSelecionados: cart });
+    localStorage.setItem(
+      'produtos',
+      JSON.stringify(this.state.produtosSelecionados),
+    );
+  }
+
   render() {
-    const { options, produtosPorCategoria } = this.state;
+    const { respostaDaApi, produtosSelecionados } = this.state;
+    console.log(produtosSelecionados);
     return (
-      <div>
-        <form>
-          <h1 data-testid="home-initial-message">
-            Digite algum termo de pesquisa ou escolha uma categoria.
-          </h1>
-          <input type="text" name="searchText" onChange={this.capturingText} />
-          <select name="searchCategory" onChange={this.capturingCategory}>
-            {options.map((categoria) => (
-              <option key={categoria.id} data-testid="category">
-                {categoria.name}
-              </option>
-            ))}
-          </select>
-          <input onClick={this.handleClick} type="button" value="Buscar" />
-          {produtosPorCategoria.map((produto) => (
-            <div key={produto.id}>
-              <img src={produto.thumbnail} alt={produto.title} />
-              <h4>{produto.title}</h4>
-              <p>R${produto.price.toFixed(2)}</p>
+      <div className="d-flex">
+        <div>
+          {/* OT = OnText   OC= OnCategory  OS=OnSearch */}
+          <Form
+            OT={this.capturingText}
+            OC={this.capturingCategory}
+            OS={this.handleClick}
+          />
+        </div>
+        <div>
+          {respostaDaApi.map((produto) => (
+            <div key={produto.id} data-testeid="product">
+              <img src={produto.thumbnail} alt={produto.title} data-testeid="product" />
+              <h4 data-testeid="product">{produto.title}</h4>
+              <p data-testeid="product">R${produto.price.toFixed(2)}</p>
+              <input
+                type="button"
+                value="Adicionar"
+                name={produto.id}
+                onClick={this.handleCart}
+              />
             </div>
           ))}
-        </form>
+        </div>
+        <MiniCarrinho lista={produtosSelecionados} />
       </div>
     );
   }
