@@ -31,15 +31,16 @@ class Carrinho extends React.Component {
     return (
       <div>
         <GiShoppingCart />
+        <span data-testid="shopping-cart-size">{produto.length}</span>
         <div>
           <ul>
             {produto.map((each) => (
-              <li>
+              <li key={each.thumbnail}>
                 <p data-testid="shopping-cart-product-name">{each.title}</p>
                 <img src={each.thumbnail} alt={each.title} />
                 <p>{each.price}</p>
+                <p data-testid="shopping-cart-product-quantity">1</p>
                 <p>{each.available_quantity}</p>
-
               </li>
             ))}
           </ul>
