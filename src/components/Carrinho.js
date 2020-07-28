@@ -23,12 +23,12 @@ class Carrinho extends React.Component {
     const { produto } = this.state;
     if (!produto) {
       return (
-        <p data-testeid="shopping-cart-empty-message">
+        <p data-testid="shopping-cart-empty-message">
+
           Seu carrinho está vazio
         </p>
       );
     }
-
     return (
       <div>
         <GiShoppingCart />
@@ -36,9 +36,11 @@ class Carrinho extends React.Component {
           <ul>
             {produto.map((each) => (
               <li>
-                <p>{each.title}</p>
+                <p data-testid="shopping-cart-product-name">{each.title}</p>
                 <img src={each.thumbnail} alt={each.title} />
                 <p>{each.price}</p>
+                <p>{each.available_quantity}</p>
+
               </li>
             ))}
           </ul>

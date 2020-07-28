@@ -1,5 +1,5 @@
 import React from 'react';
-import * as apiFunction from '../services/api';
+import * as api from '../services/api';
 import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import MiniCarrinho from './MiniCarrinho';
@@ -33,23 +33,13 @@ class Busca extends React.Component {
     }
   }
 
+
   capturingText(event) {
     this.setState({ searchText: event.target.value });
   }
 
-  capturingCategory(event) {
-    this.setState({
-      searchCategoryName: event.target.innerHTML,
-      searchCategoryId: event.target.id,
-    });
-
-    if (event.target.value === 'Selecione uma categoria') {
-      this.setState({ respostaDaApi: [] });
-    }
-  }
-
-  handleClick(event) {
-    apiFunction
+  apiRequest() {
+    api
       .getProductsFromCategoryAndQuery(
         this.state.searchCategoryId,
         this.state.searchText,
@@ -57,6 +47,18 @@ class Busca extends React.Component {
       .then((resolve) => {
         this.setState({ respostaDaApi: resolve.results });
       });
+  }
+
+  capturingCategory(event) {
+    this.setState({
+      searchCategoryName: event.target.innerHTML,
+      searchCategoryId: event.target.id,
+    });
+    this.apiRequest();
+  }
+
+  handleClick(event) {
+    this.apiRequest();
     event.preventDefault();
   }
 
@@ -74,12 +76,12 @@ class Busca extends React.Component {
 
   render() {
     const { respostaDaApi, produtosSelecionados } = this.state;
-    console.log(produtosSelecionados);
     return (
       <div className="d-flex">
         <div>
           {/* OT = OnText   OC= OnCategory  OS=OnSearch */}
           <Form
+            QC={produtosSelecionados.length}
             OT={this.capturingText}
             OC={this.capturingCategory}
             OS={this.handleClick}
@@ -87,15 +89,18 @@ class Busca extends React.Component {
         </div>
         <div>
           {respostaDaApi.map((produto) => (
-            <div key={produto.id} data-testeid="product">
-              <img src={produto.thumbnail} alt={produto.title} data-testeid="product" />
-              <h4 data-testeid="product">{produto.title}</h4>
-              <p data-testeid="product">R${produto.price.toFixed(2)}</p>
+            <div key={produto.id} data-testid="product">
+              <img src={produto.thumbnail} alt={produto.title} data-testid="product" />
+              <h4 data-testid="product">{produto.title}</h4>
+              <p data-testid="product">R${produto.price.toFixed(2)}</p>
+
               <input
                 type="button"
                 value="Adicionar"
                 name={produto.id}
                 onClick={this.handleCart}
+                data-testid="product-add-to-cart"
+
               />
             </div>
           ))}
