@@ -23,7 +23,7 @@ class Carrinho extends React.Component {
     const { produto } = this.state;
     if (!produto) {
       return (
-        <p data-testeid="shopping-cart-empty-message">
+        <p data-testid="shopping-cart-empty-message">
           Seu carrinho está vazio
         </p>
       );
