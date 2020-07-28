@@ -37,11 +37,7 @@ class Busca extends React.Component {
     this.setState({ searchText: event.target.value });
   }
 
-  capturingCategory(event) {
-    this.setState({
-      searchCategoryName: event.target.innerHTML,
-      searchCategoryId: event.target.id,
-    });
+  apiRequest() {
     api
       .getProductsFromCategoryAndQuery(
         this.state.searchCategoryId,
@@ -52,15 +48,16 @@ class Busca extends React.Component {
       });
   }
 
+  capturingCategory(event) {
+    this.setState({
+      searchCategoryName: event.target.innerHTML,
+      searchCategoryId: event.target.id,
+    });
+    this.apiRequest();
+  }
+
   handleClick(event) {
-    api
-      .getProductsFromCategoryAndQuery(
-        this.state.searchCategoryId,
-        this.state.searchText,
-      )
-      .then((resolve) => {
-        this.setState({ respostaDaApi: resolve.results });
-      });
+    this.apiRequest();
     event.preventDefault();
   }
 

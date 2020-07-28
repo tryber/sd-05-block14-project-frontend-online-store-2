@@ -13,9 +13,7 @@ class Form extends React.Component {
 
   componentDidMount() {
     api.getCategories().then((response) => {
-      this.setState({
-        listaDeCategorias: [ ...response ],
-      });
+      this.setState({ listaDeCategorias: [...response] })
     });
   }
 
@@ -33,7 +31,7 @@ class Form extends React.Component {
           <Link to="/shopping-cart">
             <GiShoppingCart size={44} data-testid="shopping-cart-button" />
           </Link>
-          <span  data-testid="shopping-cart-product-quantity">{this.props.QC}</span>
+          <span data-testid="shopping-cart-product-quantity">{this.props.QC}</span>
         </form>
         <div className="col-8 text-start">
           {listaDeCategorias.map((cat) => (
@@ -41,7 +39,7 @@ class Form extends React.Component {
               <button data-testid="category" id={cat.id} onClick={this.props.OC}>{cat.name}</button>
               <br />
             </div>
-        ))}
+          ))}
         </div>
       </div>
     );
