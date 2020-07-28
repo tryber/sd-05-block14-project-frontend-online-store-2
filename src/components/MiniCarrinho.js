@@ -12,6 +12,7 @@ class MiniCarrinho extends React.Component {
           <ul key="lista">
             {this.props.lista.map((produto) => (
               <li key={produto.thumbnail}>
+
                 <p>{produto.title}</p>
                 <img src={produto.thumbnail} alt={produto.title} />
                 <p>{produto.price}</p>

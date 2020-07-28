@@ -14,6 +14,7 @@ class Form extends React.Component {
   componentDidMount() {
     api.getCategories().then((response) => {
       this.setState({ listaDeCategorias: [...response] });
+
     });
   }
 
@@ -40,6 +41,7 @@ class Form extends React.Component {
               <br />
             </div>
           ))}
+
         </div>
       </div>
     );

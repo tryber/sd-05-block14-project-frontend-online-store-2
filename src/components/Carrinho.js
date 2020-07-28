@@ -24,11 +24,11 @@ class Carrinho extends React.Component {
     if (!produto) {
       return (
         <p data-testid="shopping-cart-empty-message">
+
           Seu carrinho está vazio
         </p>
       );
     }
-    console.log(produto);
     return (
       <div>
         <GiShoppingCart />
@@ -40,6 +40,7 @@ class Carrinho extends React.Component {
                 <img src={each.thumbnail} alt={each.title} />
                 <p>{each.price}</p>
                 <p>{each.available_quantity}</p>
+
               </li>
             ))}
           </ul>

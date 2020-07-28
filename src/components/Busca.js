@@ -33,6 +33,7 @@ class Busca extends React.Component {
     }
   }
 
+
   capturingText(event) {
     this.setState({ searchText: event.target.value });
   }
@@ -92,12 +93,14 @@ class Busca extends React.Component {
               <img src={produto.thumbnail} alt={produto.title} data-testid="product" />
               <h4 data-testid="product">{produto.title}</h4>
               <p data-testid="product">R${produto.price.toFixed(2)}</p>
+
               <input
                 type="button"
                 value="Adicionar"
                 name={produto.id}
                 onClick={this.handleCart}
                 data-testid="product-add-to-cart"
+
               />
             </div>
           ))}
