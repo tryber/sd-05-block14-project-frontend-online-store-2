@@ -126,6 +126,11 @@ class Busca extends React.Component {
     }
   }
 
+  handleDetails(produto, total) {
+    localStorage.setItem('detail', JSON.stringify(produto));
+    localStorage.setItem('totalProducts', JSON.stringify(total));
+  }
+
   render() {
     const { selecteds, respostaDaApi } = this.state;
     const total = (sizer(selecteds));
@@ -146,7 +151,7 @@ class Busca extends React.Component {
                 onClick={this.handleCart}
                 data-testid="product-add-to-cart"
               />
-              <Link data-testid="product-detail-link" to="/product-detail">VER DETALHES</Link>
+              <Link data-testid="product-detail-link" to="/product-detail" onClick={() => this.handleDetails(produto, total)}>VER DETALHES</Link>
             </div>
           ))}
         </div>

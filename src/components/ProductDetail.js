@@ -1,9 +1,11 @@
 import React from 'react';
+import { GiShoppingCart } from 'react-icons/gi';
+import { Link } from 'react-router-dom';
 
 class ProductDetail extends React.Component {
   constructor(props) {
     super(props);
-    this.props = { produto: [] };
+    this.state = { produto: [], total: 0 };
     this.starter3 = this.starter3.bind(this);
   }
 
@@ -12,23 +14,26 @@ class ProductDetail extends React.Component {
   }
 
   starter3() {
-    const listaDeProdutos = JSON.parse(localStorage.getItem('produtos'));
-    this.setState({ produto: listaDeProdutos });
+    const listaDeProdutos = JSON.parse(localStorage.getItem('detail'));
+    const QC = JSON.parse(localStorage.getItem('totalProducts'))
+    this.setState({ produto: listaDeProdutos, total: QC });
   }
 
   render() {
-    const { produto } = this.state;
+    const { produto, total } = this.state;
     return (
       <div>
-        <ul>
-          {produto.map((each) => (
+        <ul> 
             <li>
-              <p data-testid="product-detail-name">{each.title}</p>
-              <img src={each.thumbnail} alt={each.title} />
-              <p>{each.price}</p>
+              <p data-testid="product-detail-name">{produto.title}</p>
+              <img src={produto.thumbnail} alt={produto.title} />
+              <p>{produto.price}</p>
             </li>
-          ))}
         </ul>
+        <Link to="/shopping-cart">
+          <GiShoppingCart size={44} data-testid="shopping-cart-button" />
+        </Link>
+        <span data-testid="shopping-cart-size">{total}</span>
       </div>
     );
   }
