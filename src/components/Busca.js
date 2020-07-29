@@ -5,7 +5,7 @@ import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import MiniCarrinho from './MiniCarrinho';
 import Form from './Form';
-import ProductDetail from './ProductDetail';
+// import ProductDetail from './ProductDetail';
 import sizer from '../services/sizer';
 import finder from '../services/finder';
 
@@ -146,7 +146,7 @@ class Busca extends React.Component {
                 onClick={this.handleCart}
                 data-testid="product-add-to-cart"
               />
-            <Link data-testid="product-detail-link" to="/product-detail">VER DETALHES</Link>
+              <Link data-testid="product-detail-link" to="/product-detail">VER DETALHES</Link>
             </div>
           ))}
         </div>

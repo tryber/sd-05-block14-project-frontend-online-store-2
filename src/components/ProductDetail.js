@@ -1,26 +1,24 @@
 import React from 'react';
 
 class ProductDetail extends React.Component {
-  constructor (props) {
-    super (props)
-    this.props={
-      produto: [],
-    }
-    this.starter2 = this.starter2.bind(this);
+  constructor(props) {
+    super(props);
+    this.props = { produto: [] };
+    this.starter3 = this.starter3.bind(this);
   }
 
   componentDidMount() {
-    this.starter2();
+    this.starter3();
   }
 
-  starter2() {
+  starter3() {
     const listaDeProdutos = JSON.parse(localStorage.getItem('produtos'));
     this.setState({ produto: listaDeProdutos });
   }
 
-  render (){
+  render() {
     const { produto } = this.state;
-    return(
+    return (
       <div>DETALHES
         <ul>
           {produto.map((each) => (
@@ -32,8 +30,8 @@ class ProductDetail extends React.Component {
           ))}
         </ul>
       </div>
-    )
+    );
   }
-} 
+}
 
 export default ProductDetail;
