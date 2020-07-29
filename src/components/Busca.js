@@ -14,12 +14,16 @@ class Busca extends React.Component {
       searchCategoryId: '',
       respostaDaApi: [],
       produtosSelecionados: [],
+      quantity: 0,
     };
     this.starter = this.starter.bind(this);
     this.capturingText = this.capturingText.bind(this);
     this.capturingCategory = this.capturingCategory.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleCart = this.handleCart.bind(this);
+    this.add = this.add.bind(this);
+    this.subtract = this.subtract.bind(this);
+    this.apiRequest = this.apiRequest.bind(this);
   }
 
   componentDidMount() {
@@ -33,7 +37,6 @@ class Busca extends React.Component {
     }
   }
 
-
   capturingText(event) {
     this.setState({ searchText: event.target.value });
   }
@@ -42,15 +45,15 @@ class Busca extends React.Component {
     api
       .getProductsFromCategoryAndQuery(
         this.state.searchCategoryId,
-        this.state.searchText,
+        this.state.searchText
       )
       .then((resolve) => {
         this.setState({ respostaDaApi: resolve.results });
       });
   }
 
-  capturingCategory(event) {
-    this.setState({
+  async capturingCategory(event) {
+    await this.setState({
       searchCategoryName: event.target.innerHTML,
       searchCategoryId: event.target.id,
     });
@@ -64,18 +67,60 @@ class Busca extends React.Component {
 
   handleCart(event) {
     const item = this.state.respostaDaApi.find(
-      (produto) => produto.id === event.target.name);
+      (produto) => produto.id === event.target.name
+    );
+    if (item.quantity) {
+      item.quantity += 1;
+    } else {
+      item.quantity = 1;
+    }
     const cart = this.state.produtosSelecionados;
-    cart.push(item);
+    if (!this.state.produtosSelecionados.includes(item)) {
+      cart.push(item);
+    }
     this.setState({ produtosSelecionados: cart });
     localStorage.setItem(
       'produtos',
-      JSON.stringify(this.state.produtosSelecionados),
+      JSON.stringify(this.state.produtosSelecionados)
+    );
+  }
+
+  add(e) {
+    const arr = this.state.produtosSelecionados;
+    const item = arr.find((produto) => produto.id === e.target.value);
+    const listId = arr.indexOf(item);
+    arr.splice(listId, 1);
+    item.quantity += 1;
+    arr.splice(listId, 0, item);
+    this.setState({
+      produtosSelecionados: arr,
+    });
+    localStorage.setItem(
+      'produtos',
+      JSON.stringify(this.state.produtosSelecionados)
+    );
+  }
+
+  subtract(e) {
+    const arr = this.state.produtosSelecionados;
+    const item = arr.find((produto) => produto.id === e.target.value);
+    const listId = arr.indexOf(item);
+    arr.splice(listId, 1);
+    if (item.quantity - 1 > 0) {
+      item.quantity -= 1;
+      arr.splice(listId, 0, item);
+    }
+    this.setState({
+      produtosSelecionados: arr,
+    });
+    localStorage.setItem(
+      'produtos',
+      JSON.stringify(this.state.produtosSelecionados)
     );
   }
 
   render() {
-    const { respostaDaApi, produtosSelecionados } = this.state;
+    const { respostaDaApi, produtosSelecionados, quantity } = this.state;
     return (
       <div className="d-flex">
         <div>
@@ -90,7 +135,7 @@ class Busca extends React.Component {
           {respostaDaApi.map((produto) => (
             <div key={produto.id} data-testid="product">
               <img src={produto.thumbnail} alt={produto.title} />
-              <h4 >{produto.title}</h4>
+              <h4>{produto.title}</h4>
               <p>R${produto.price.toFixed(2)}</p>
 
               <input
@@ -99,12 +144,20 @@ class Busca extends React.Component {
                 name={produto.id}
                 onClick={this.handleCart}
                 data-testid="product-add-to-cart"
-
               />
             </div>
           ))}
         </div>
-        <MiniCarrinho lista={produtosSelecionados} />
+        <div>
+          {produtosSelecionados.map((cada) => (
+            <MiniCarrinho
+              key={cada.id}
+              lista={cada}
+              plus={this.add}
+              minus={this.subtract}
+            />
+          ))}
+        </div>
       </div>
     );
   }
