@@ -3,7 +3,7 @@ import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { GiShoppingCart } from '../../node_modules/react-icons/gi';
 import MiniCarrinho from './MiniCarrinho';
-import * as sizer from '../services/sizer';
+import sizer from '../services/sizer';
 
 class Carrinho extends React.Component {
   constructor(props) {
@@ -61,7 +61,7 @@ class Carrinho extends React.Component {
         <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
       );
     }
-    const total = (sizer.sizer(produto));
+    const total = (sizer(produto));
     return (
       <div>
         <GiShoppingCart />

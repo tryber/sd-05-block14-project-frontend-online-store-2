@@ -11,7 +11,7 @@ class MiniCarrinho extends React.Component {
   }
 
   add(e) {
-    const limitador = this.props.lista.available_quantity
+    const limitador = this.props.lista.available_quantity;
     const adding = this.props.plus;
     adding(e);
     if (this.props.lista.quantity < limitador) {

@@ -4,7 +4,8 @@ import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import MiniCarrinho from './MiniCarrinho';
 import Form from './Form';
-import * as sizer from '../services/sizer';
+import sizer from '../services/sizer';
+import finder from '../services/finder'
 
 class Busca extends React.Component {
   constructor(props) {
@@ -75,12 +76,7 @@ class Busca extends React.Component {
     } else {
       cart = oldCart;
     }
-    let listId = -1;
-    for(let i = 0; i < cart.length; i += 1) {
-      if (cart[i].id === item.id) {
-        listId = i;
-      }
-    }
+    let listId = finder(cart, item)
     if (listId === -1) {
       item.quantity = 1;
       cart.push(item);
@@ -130,7 +126,7 @@ class Busca extends React.Component {
 
   render() {
     const { selecteds, respostaDaApi } = this.state;
-    const total = (sizer.sizer(selecteds));
+    const total = (sizer(selecteds));
     return (
       <div className="d-flex">
         <Form QC={total} OT={this.Text} OC={this.Cat} OS={this.handleClick} />
