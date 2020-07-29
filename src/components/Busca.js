@@ -5,7 +5,7 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import MiniCarrinho from './MiniCarrinho';
 import Form from './Form';
 import sizer from '../services/sizer';
-import finder from '../services/finder'
+import finder from '../services/finder';
 
 class Busca extends React.Component {
   constructor(props) {
@@ -76,7 +76,7 @@ class Busca extends React.Component {
     } else {
       cart = oldCart;
     }
-    let listId = finder(cart, item)
+    const listId = finder(cart, item);
     if (listId === -1) {
       item.quantity = 1;
       cart.push(item);

@@ -6,4 +6,4 @@ function sizer(arr) {
   return total;
 }
 
-export default sizer
+export default sizer;
