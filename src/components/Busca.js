@@ -4,6 +4,7 @@ import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import MiniCarrinho from './MiniCarrinho';
 import Form from './Form';
+import * as sizer from '../services/sizer';
 
 class Busca extends React.Component {
   constructor(props) {
@@ -75,7 +76,11 @@ class Busca extends React.Component {
       cart = oldCart;
     }
     let listId = -1;
-    cart.forEach((product, index) => (product.id === item.id) ? listId = index : -1);
+    for(let i = 0; i < cart.length; i += 1) {
+      if (cart[i].id === item.id) {
+        listId = i;
+      }
+    }
     if (listId === -1) {
       item.quantity = 1;
       cart.push(item);
@@ -118,21 +123,14 @@ class Busca extends React.Component {
       this.setState({ selecteds: arr });
       localStorage.setItem('produtos', JSON.stringify(arr));
     } else {
-      localStorage.clear()
+      localStorage.clear();
       this.setState({ selecteds: [] });
     }
   }
 
-  sizer(arr) {
-    let total = 0;
-    arr.forEach((number) => total += number.quantity);
-    return total;
-  }
-
-
   render() {
     const { selecteds, respostaDaApi } = this.state;
-    const total = (this.sizer(selecteds));
+    const total = (sizer.sizer(selecteds));
     return (
       <div className="d-flex">
         <Form QC={total} OT={this.Text} OC={this.Cat} OS={this.handleClick} />

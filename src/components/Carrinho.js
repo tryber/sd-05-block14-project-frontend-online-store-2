@@ -3,6 +3,7 @@ import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { GiShoppingCart } from '../../node_modules/react-icons/gi';
 import MiniCarrinho from './MiniCarrinho';
+import * as sizer from '../services/sizer';
 
 class Carrinho extends React.Component {
   constructor(props) {
@@ -11,7 +12,6 @@ class Carrinho extends React.Component {
     this.starter2 = this.starter2.bind(this);
     this.add = this.add.bind(this);
     this.subtract = this.subtract.bind(this);
-    this.sizer = this.sizer.bind(this);
   }
 
   componentDidMount() {
@@ -22,7 +22,7 @@ class Carrinho extends React.Component {
     const listaDeProdutos = JSON.parse(localStorage.getItem('produtos'));
     this.setState({ produto: listaDeProdutos });
   }
-  
+
   add(e) {
     const arr = this.state.produto;
     const item = arr.find((produto) => produto.id === e.target.value);
@@ -50,14 +50,8 @@ class Carrinho extends React.Component {
       localStorage.setItem('produtos', JSON.stringify(arr));
     } else {
       localStorage.clear();
-      this.setState({ produtosSelecionados: [] })
+      this.setState({ produtosSelecionados: [] });
     }
-  }
-
-  sizer(arr) {
-    let total = 0;
-    arr.forEach((number) => total += number.quantity);
-    return total;
   }
 
   render() {
@@ -67,7 +61,7 @@ class Carrinho extends React.Component {
         <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
       );
     }
-    const total = (this.sizer(produto));
+    const total = (sizer.sizer(produto));
     return (
       <div>
         <GiShoppingCart />
