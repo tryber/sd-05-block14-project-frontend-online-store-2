@@ -9,6 +9,12 @@ class MiniCarrinho extends React.Component {
     this.add = this.add.bind(this);
     this.sub = this.sub.bind(this);
   }
+  
+  componentDidUpdate(prevProps, prevState) {
+    if(this.state.quantity != prevState.quantity) {
+      this.setState({ quantity: this.state.quantity });
+    }
+  }
 
   add(e) {
     const limitador = this.props.lista.available_quantity;
@@ -22,12 +28,10 @@ class MiniCarrinho extends React.Component {
   sub(e) {
     const subt = this.props.minus;
     subt(e);
-    this.setState({ quantity: this.state.quantity - 1 });
   }
 
   render() {
     const { title, thumbnail, price, id, quantity, shipping } = this.props.lista;
-    if (this.state.quantity > 0) {
       return (
         <div>
           <ul key="lista">
@@ -51,8 +55,6 @@ class MiniCarrinho extends React.Component {
         </div>
       );
     }
-    return <div />;
-  }
 }
 
 export default MiniCarrinho;

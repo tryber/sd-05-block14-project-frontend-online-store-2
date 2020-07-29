@@ -81,9 +81,12 @@ class Busca extends React.Component {
     if (listId === -1) {
       item.quantity = 1;
       cart.push(item);
-    } else {
+    } else if (item.quantity < item.available_quantity) {
       cart[listId].quantity += 1;
-    }
+      } else {
+        window.alert('Quantidade excedida');
+      }
+    
     this.setState({ selecteds: cart });
     localStorage.setItem(
       'produtos',
@@ -95,8 +98,8 @@ class Busca extends React.Component {
     const arr = this.state.selecteds;
     const item = arr.find((produto) => produto.id === e.target.value);
     const listId = arr.indexOf(item);
-    item.quantity += 1;
-    if (item.quantity <= item.available_quantity) {
+    if (item.quantity < item.available_quantity) {
+      item.quantity += 1;
       arr.splice(listId, 1);
       arr.splice(listId, 0, item);
       this.setState({ selecteds: arr });
@@ -104,6 +107,8 @@ class Busca extends React.Component {
       'produtos',
       JSON.stringify(this.state.selecteds),
     );
+    } else {
+      window.alert('Quantidade excedida');
     }
   }
 
