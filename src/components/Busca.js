@@ -9,6 +9,11 @@ import Form from './Form';
 import sizer from '../services/sizer';
 import finder from '../services/finder';
 
+function handleDetails(produto, total) {
+  localStorage.setItem('detail', JSON.stringify(produto));
+  localStorage.setItem('totalProducts', JSON.stringify(total));
+}
+
 class Busca extends React.Component {
   constructor(props) {
     super(props);
@@ -126,10 +131,6 @@ class Busca extends React.Component {
     }
   }
 
-  handleDetails(produto, total) {
-    localStorage.setItem('detail', JSON.stringify(produto));
-    localStorage.setItem('totalProducts', JSON.stringify(total));
-  }
 
   render() {
     const { selecteds, respostaDaApi } = this.state;
@@ -151,7 +152,8 @@ class Busca extends React.Component {
                 onClick={this.handleCart}
                 data-testid="product-add-to-cart"
               />
-              <Link data-testid="product-detail-link" to="/product-detail" onClick={() => this.handleDetails(produto, total)}>VER DETALHES</Link>
+              <Link data-testid="product-detail-link" to="/product-detail" onClick={() =>
+                handleDetails(produto, total)}>VER DETALHES</Link>
             </div>
           ))}
         </div>

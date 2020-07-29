@@ -15,7 +15,7 @@ class ProductDetail extends React.Component {
 
   starter3() {
     const listaDeProdutos = JSON.parse(localStorage.getItem('detail'));
-    const QC = JSON.parse(localStorage.getItem('totalProducts'))
+    const QC = JSON.parse(localStorage.getItem('totalProducts'));
     this.setState({ produto: listaDeProdutos, total: QC });
   }
 
@@ -24,11 +24,11 @@ class ProductDetail extends React.Component {
     return (
       <div>
         <ul> 
-            <li>
-              <p data-testid="product-detail-name">{produto.title}</p>
-              <img src={produto.thumbnail} alt={produto.title} />
-              <p>{produto.price}</p>
-            </li>
+          <li>
+            <p data-testid="product-detail-name">{produto.title}</p>
+            <img src={produto.thumbnail} alt={produto.title} />
+            <p>{produto.price}</p>
+          </li>
         </ul>
         <Link to="/shopping-cart">
           <GiShoppingCart size={44} data-testid="shopping-cart-button" />
