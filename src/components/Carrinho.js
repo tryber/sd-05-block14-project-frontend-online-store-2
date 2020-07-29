@@ -29,9 +29,7 @@ class Carrinho extends React.Component {
     arr.splice(listId, 1);
     item.quantity += 1;
     arr.splice(listId, 0, item);
-    this.setState({
-      produtosSelecionados: arr,
-    });
+    this.setState({ produtosSelecionados: arr });
     localStorage.setItem('produtos', JSON.stringify(this.state.produto));
   }
 
@@ -44,9 +42,7 @@ class Carrinho extends React.Component {
       item.quantity -= 1;
       arr.splice(listId, 0, item);
     }
-    this.setState({
-      produtosSelecionados: arr,
-    });
+    this.setState({ produtosSelecionados: arr });
     localStorage.setItem('produtos', JSON.stringify(this.state.produtos));
   }
 

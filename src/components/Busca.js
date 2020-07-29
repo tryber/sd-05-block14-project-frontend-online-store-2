@@ -45,7 +45,7 @@ class Busca extends React.Component {
     api
       .getProductsFromCategoryAndQuery(
         this.state.searchCategoryId,
-        this.state.searchText
+        this.state.searchText,
       )
       .then((resolve) => {
         this.setState({ respostaDaApi: resolve.results });
@@ -66,9 +66,7 @@ class Busca extends React.Component {
   }
 
   handleCart(event) {
-    const item = this.state.respostaDaApi.find(
-      (produto) => produto.id === event.target.name
-    );
+    const item = this.state.respostaDaApi.find(produto => produto.id === event.target.name,);
     if (item.quantity) {
       item.quantity += 1;
     } else {
@@ -81,7 +79,7 @@ class Busca extends React.Component {
     this.setState({ produtosSelecionados: cart });
     localStorage.setItem(
       'produtos',
-      JSON.stringify(this.state.produtosSelecionados)
+      JSON.stringify(this.state.produtosSelecionados),
     );
   }
 
@@ -92,12 +90,10 @@ class Busca extends React.Component {
     arr.splice(listId, 1);
     item.quantity += 1;
     arr.splice(listId, 0, item);
-    this.setState({
-      produtosSelecionados: arr,
-    });
+    this.setState({ produtosSelecionados: arr});
     localStorage.setItem(
       'produtos',
-      JSON.stringify(this.state.produtosSelecionados)
+      JSON.stringify(this.state.produtosSelecionados),
     );
   }
 
@@ -110,17 +106,15 @@ class Busca extends React.Component {
       item.quantity -= 1;
       arr.splice(listId, 0, item);
     }
-    this.setState({
-      produtosSelecionados: arr,
-    });
+    this.setState({ produtosSelecionados: arr });
     localStorage.setItem(
       'produtos',
-      JSON.stringify(this.state.produtosSelecionados)
+      JSON.stringify(this.state.produtosSelecionados),
     );
   }
 
   render() {
-    const { respostaDaApi, produtosSelecionados, quantity } = this.state;
+    const { respostaDaApi, produtosSelecionados } = this.state;
     return (
       <div className="d-flex">
         <div>
