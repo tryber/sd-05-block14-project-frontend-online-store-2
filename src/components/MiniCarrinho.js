@@ -30,7 +30,7 @@ class MiniCarrinho extends React.Component {
           <ul key="lista">
             <li key={thumbnail}>
               <p data-testid="shopping-cart-product-name">{title}</p>
-              <img src={produto.thumbnail} alt={title} />
+              <img src={thumbnail} alt={title} />
               <p>{price}</p>
               <div>
                 <p>Quantidade:</p>
@@ -46,8 +46,8 @@ class MiniCarrinho extends React.Component {
           </ul>
         </div>
       );
-    } 
-    return <div />
+    }
+    return <div />;
   }
 }
 

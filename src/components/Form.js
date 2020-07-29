@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import * as api from '../services/api';
 import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { GiShoppingCart } as from '../../node_modules/react-icons/gi';
+import { GiShoppingCart } from '../../node_modules/react-icons/gi';
 
 class Form extends React.Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class Form extends React.Component {
         <div key="1" className="col-8 text-start">
           {listaDeCategorias.map((cat) => (
             <div key={cat.id}>
-              <button data-testid="category" id={cat.id} onClick={this.props.OC}>{cat.name}</button>
+              <button data-testid="category" id={cat.id} onClick={OC}>{cat.name}</button>
               <br />
             </div>
           ))}

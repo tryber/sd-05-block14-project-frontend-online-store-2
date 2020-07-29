@@ -13,12 +13,12 @@ class Busca extends React.Component {
       searchCategoryName: '',
       searchCategoryId: '',
       respostaDaApi: [],
-      produtosSelecionados: [],
+      selecteds: [],
       quantity: 0,
     };
     this.starter = this.starter.bind(this);
-    this.capturingText = this.capturingText.bind(this);
-    this.capturingCategory = this.capturingCategory.bind(this);
+    this.Text = this.Text.bind(this);
+    this.Cat = this.Cat.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleCart = this.handleCart.bind(this);
     this.add = this.add.bind(this);
@@ -33,11 +33,11 @@ class Busca extends React.Component {
   starter() {
     const listaDeProdutos = JSON.parse(localStorage.getItem('produtos'));
     if (listaDeProdutos) {
-      this.setState({ produtosSelecionados: listaDeProdutos });
+      this.setState({ selecteds: listaDeProdutos });
     }
   }
 
-  capturingText(event) {
+  Text(event) {
     this.setState({ searchText: event.target.value });
   }
 
@@ -52,7 +52,7 @@ class Busca extends React.Component {
       });
   }
 
-  async capturingCategory(event) {
+  async Cat(event) {
     await this.setState({
       searchCategoryName: event.target.innerHTML,
       searchCategoryId: event.target.id,
@@ -66,39 +66,39 @@ class Busca extends React.Component {
   }
 
   handleCart(event) {
-    const item = this.state.respostaDaApi.find(produto => produto.id === event.target.name,);
+    const item = this.state.respostaDaApi.find((produto) => produto.id === event.target.name)
     if (item.quantity) {
       item.quantity += 1;
     } else {
       item.quantity = 1;
     }
-    const cart = this.state.produtosSelecionados;
-    if (!this.state.produtosSelecionados.includes(item)) {
+    const cart = this.state.selecteds;
+    if (!this.state.selecteds.includes(item)) {
       cart.push(item);
     }
-    this.setState({ produtosSelecionados: cart });
+    this.setState({ selecteds: cart });
     localStorage.setItem(
       'produtos',
-      JSON.stringify(this.state.produtosSelecionados),
+      JSON.stringify(this.state.selecteds),
     );
   }
 
   add(e) {
-    const arr = this.state.produtosSelecionados;
+    const arr = this.state.selecteds;
     const item = arr.find((produto) => produto.id === e.target.value);
     const listId = arr.indexOf(item);
     arr.splice(listId, 1);
     item.quantity += 1;
     arr.splice(listId, 0, item);
-    this.setState({ produtosSelecionados: arr});
+    this.setState({ selecteds: arr });
     localStorage.setItem(
       'produtos',
-      JSON.stringify(this.state.produtosSelecionados),
+      JSON.stringify(this.state.selecteds),
     );
   }
 
   subtract(e) {
-    const arr = this.state.produtosSelecionados;
+    const arr = this.state.selecteds;
     const item = arr.find((produto) => produto.id === e.target.value);
     const listId = arr.indexOf(item);
     arr.splice(listId, 1);
@@ -106,32 +106,25 @@ class Busca extends React.Component {
       item.quantity -= 1;
       arr.splice(listId, 0, item);
     }
-    this.setState({ produtosSelecionados: arr });
+    this.setState({ selecteds: arr });
     localStorage.setItem(
       'produtos',
-      JSON.stringify(this.state.produtosSelecionados),
+      JSON.stringify(this.state.selecteds),
     );
   }
 
   render() {
-    const { respostaDaApi, produtosSelecionados } = this.state;
     return (
       <div className="d-flex">
         <div>
-          <Form
-            QC={produtosSelecionados.length}
-            OT={this.capturingText}
-            OC={this.capturingCategory}
-            OS={this.handleClick}
-          />
+          <Form QC={this.state.selecteds.length} OT={this.Text} OC={this.Cat} OS={this.handleClick}/>
         </div>
         <div>
-          {respostaDaApi.map((produto) => (
+          {this.state.respostaDaApi.map((produto) => (
             <div key={produto.id} data-testid="product">
               <img src={produto.thumbnail} alt={produto.title} />
               <h4>{produto.title}</h4>
               <p>R${produto.price.toFixed(2)}</p>
-
               <input
                 type="button"
                 value="Adicionar"
@@ -143,13 +136,8 @@ class Busca extends React.Component {
           ))}
         </div>
         <div>
-          {produtosSelecionados.map((cada) => (
-            <MiniCarrinho
-              key={cada.id}
-              lista={cada}
-              plus={this.add}
-              minus={this.subtract}
-            />
+          {this.state.selecteds.map((cada) => (
+            <MiniCarrinho key={cada.id} lista={cada} plus={this.add} minus={this.subtract}/>
           ))}
         </div>
       </div>
