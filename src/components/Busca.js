@@ -69,18 +69,18 @@ class Busca extends React.Component {
     const item = this.state.respostaDaApi.find((produto) => produto.id === event.target.name);
     const oldCart = JSON.parse(localStorage.getItem('produtos'));
     let cart;
-    if(!oldCart) {
+    if (!oldCart) {
       cart = this.state.selecteds;
     } else {
       cart = oldCart;
     }
-    let listId = -1
-    cart.forEach( (product, index) => (product.id === item.id) ? listId = index: -1)
+    let listId = -1;
+    cart.forEach((product, index) => (product.id === item.id) ? listId = index : -1);
     if (listId === -1) {
-      item.quantity = 1
+      item.quantity = 1;
       cart.push(item);
     } else {
-      cart[listId].quantity += 1
+      cart[listId].quantity += 1;
     }
     this.setState({ selecteds: cart });
     localStorage.setItem(
@@ -94,11 +94,11 @@ class Busca extends React.Component {
     const item = arr.find((produto) => produto.id === e.target.value);
     const listId = arr.indexOf(item);
     item.quantity += 1;
-    if(item.quantity <= item.available_quantity) {
-    arr.splice(listId, 1);
-    arr.splice(listId, 0, item);
-    this.setState({ selecteds: arr });
-    localStorage.setItem(
+    if (item.quantity <= item.available_quantity) {
+      arr.splice(listId, 1);
+      arr.splice(listId, 0, item);
+      this.setState({ selecteds: arr });
+      localStorage.setItem(
       'produtos',
       JSON.stringify(this.state.selecteds),
     );
@@ -106,7 +106,6 @@ class Busca extends React.Component {
   }
 
   subtract(e) {
-    const oldCart = JSON.parse(localStorage.getItem('produtos'));
     const arr = this.state.selecteds;
     const item = arr.find((produto) => produto.id === e.target.value);
     const listId = arr.indexOf(item);
@@ -115,37 +114,34 @@ class Busca extends React.Component {
     if (item.quantity > 0) {
       arr.splice(listId, 0, item);
     }
-    console.log(this.state.selecteds.length)
-    if(this.state.selecteds.length > 0) {
-    this.setState({ selecteds: arr });
-    localStorage.setItem('produtos', JSON.stringify(arr));
+    if (this.state.selecteds.length > 0) {
+      this.setState({ selecteds: arr });
+      localStorage.setItem('produtos', JSON.stringify(arr));
     } else {
       localStorage.clear()
-      this.setState({ selecteds: [] })
+      this.setState({ selecteds: [] });
     }
   }
 
   sizer(arr) {
-    let total = 0
-    arr.forEach(number => total += number.quantity )
-    return total 
+    let total = 0;
+    arr.forEach((number) => total += number.quantity);
+    return total;
   }
 
 
   render() {
     const { selecteds, respostaDaApi } = this.state;
-    const total = (this.sizer(selecteds))
+    const total = (this.sizer(selecteds));
     return (
       <div className="d-flex">
-        <div>
-          <Form QC={total} OT={this.Text} OC={this.Cat} OS={this.handleClick} />
-        </div>
+        <Form QC={total} OT={this.Text} OC={this.Cat} OS={this.handleClick} />
         <div>
           {respostaDaApi.map((produto) => (
             <div key={produto.id} data-testid="product">
               <img src={produto.thumbnail} alt={produto.title} />
               <h4>{produto.title}</h4>
-              {produto.shipping.free_shipping && <p data-testid='free-shipping'>Frete grátis</p>}
+              {produto.shipping.free_shipping && <p data-testid="free-shipping">Frete grátis</p>}
               <p>R${produto.price.toFixed(2)}</p>
               <input
                 type="button"

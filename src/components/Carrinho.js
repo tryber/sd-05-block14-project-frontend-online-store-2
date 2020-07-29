@@ -11,6 +11,7 @@ class Carrinho extends React.Component {
     this.starter2 = this.starter2.bind(this);
     this.add = this.add.bind(this);
     this.subtract = this.subtract.bind(this);
+    this.sizer = this.sizer.bind(this);
   }
 
   componentDidMount() {
@@ -21,18 +22,17 @@ class Carrinho extends React.Component {
     const listaDeProdutos = JSON.parse(localStorage.getItem('produtos'));
     this.setState({ produto: listaDeProdutos });
   }
-
+  
   add(e) {
-    
     const arr = this.state.produto;
     const item = arr.find((produto) => produto.id === e.target.value);
     const listId = arr.indexOf(item);
     item.quantity += 1;
-    if(item.quantity <= item.available_quantity) {
-    arr.splice(listId, 1);
-    arr.splice(listId, 0, item);
-    this.setState({ produtosSelecionados: arr });
-    localStorage.setItem('produtos', JSON.stringify(this.state.produto));
+    if (item.quantity <= item.available_quantity) {
+      arr.splice(listId, 1);
+      arr.splice(listId, 0, item);
+      this.setState({ produtosSelecionados: arr });
+      localStorage.setItem('produtos', JSON.stringify(this.state.produto));
     }
   }
 
@@ -41,24 +41,23 @@ class Carrinho extends React.Component {
     const item = arr.find((produto) => produto.id === e.target.value);
     const listId = arr.indexOf(item);
     arr.splice(listId, 1);
-    if (item.quantity != 1 && item.quantity > 0) {
+    if (item.quantity !== 1 && item.quantity > 0) {
       item.quantity -= 1;
       arr.splice(listId, 0, item);
     }
-    if(this.state.produto.length > 0) {
-    this.setState({ produtosSelecionados: arr });
-    localStorage.setItem('produtos', JSON.stringify(arr));
+    if (this.state.produto.length > 0) {
+      this.setState({ produtosSelecionados: arr });
+      localStorage.setItem('produtos', JSON.stringify(arr));
     } else {
-      console.log(localStorage.getItem('produtos'))
-      localStorage.clear()
+      localStorage.clear();
       this.setState({ produtosSelecionados: [] })
     }
   }
 
   sizer(arr) {
-    let total = 0
-    arr.forEach(number => total += number.quantity )
-    return total 
+    let total = 0;
+    arr.forEach((number) => total += number.quantity);
+    return total;
   }
 
   render() {
@@ -66,10 +65,9 @@ class Carrinho extends React.Component {
     if (!produto || produto.length === 0) {
       return (
         <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
-        );
-      } 
-    const total = (this.sizer(produto))
-
+      );
+    }
+    const total = (this.sizer(produto));
     return (
       <div>
         <GiShoppingCart />

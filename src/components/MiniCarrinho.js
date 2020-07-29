@@ -11,10 +11,11 @@ class MiniCarrinho extends React.Component {
   }
 
   add(e) {
-    const { quantity, available_quantity } = this.props.lista
+    const { quantity, available_quantity } = this.props.lista;
+    const limitador = available_quantity;
     const adding = this.props.plus;
     adding(e);
-    if(quantity < available_quantity) {
+    if (quantity < limitador) {
       this.setState({ quantity: this.state.quantity + 1 });
     }
   }
