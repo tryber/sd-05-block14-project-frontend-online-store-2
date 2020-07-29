@@ -102,9 +102,7 @@ class Busca extends React.Component {
       'produtos',
       JSON.stringify(this.state.selecteds),
     );
-    }else {
-    alert("Quantidade indisponível")
-  }
+    }
   }
 
   subtract(e) {

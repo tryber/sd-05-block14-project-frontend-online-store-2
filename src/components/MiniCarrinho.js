@@ -23,7 +23,6 @@ class MiniCarrinho extends React.Component {
     const subt = this.props.minus;
     subt(e);
     this.setState({ quantity: this.state.quantity - 1 });
-    
   }
 
   render() {
@@ -35,7 +34,7 @@ class MiniCarrinho extends React.Component {
             <li key={thumbnail}>
               <p data-testid="shopping-cart-product-name">{title}</p>
               <img src={thumbnail} alt={title} />
-              {shipping.free_shipping && <p data-testid='free-shipping'>Frete Grátis</p>}
+              {shipping.free_shipping && <p data-testid="free-shipping">Frete Grátis</p>}
               <p>{price}</p>
               <div>
                 <p>Quantidade:</p>
