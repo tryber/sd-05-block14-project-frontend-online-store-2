@@ -1,6 +1,7 @@
 import React from 'react';
 import { GiShoppingCart } from 'react-icons/gi';
 import { Link } from 'react-router-dom';
+import finder from '../services/finder';
 
 class ProductDetail extends React.Component {
   constructor(props) {
@@ -19,6 +20,25 @@ class ProductDetail extends React.Component {
     this.setState({ produto: listaDeProdutos, total: QC });
   }
 
+  addToCart(produto) {
+    let cart
+    const carrinho = JSON.parse(localStorage.getItem('produtos'));
+    if(carrinho) {
+      cart = carrinho;
+    } else {
+      cart = [];
+    }
+    const index = finder(cart, produto)
+    if(index !== -1) {
+      cart[index].quantity += 1
+    } else {
+      produto.quantity = 1
+      cart.push(produto);
+    }
+    localStorage.setItem('produtos', JSON.stringify(cart));
+    this.setState({total: this.state.total + 1})
+  }
+
   render() {
     const { produto, total } = this.state;
     return (
@@ -34,6 +54,12 @@ class ProductDetail extends React.Component {
           <GiShoppingCart size={44} data-testid="shopping-cart-button" />
         </Link>
         <span data-testid="shopping-cart-size">{total}</span>
+        <input
+        type="button"
+        value="ADICIONAR AO CARRINHO"
+        onClick={() => this.addToCart(produto)}
+        data-testid="product-detail-add-to-cart"
+        />
       </div>
     );
   }
