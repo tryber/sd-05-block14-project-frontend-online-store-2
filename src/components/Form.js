@@ -32,7 +32,7 @@ class Form extends React.Component {
           <Link to="/shopping-cart">
             <GiShoppingCart size={44} data-testid="shopping-cart-button" />
           </Link>
-          <span data-testid="shopping-cart-product-quantity">{QC}</span>
+          <span data-testid="shopping-cart-size">{QC}</span>
         </form>
         <div key="1" className="col-8 text-start">
           {listaDeCategorias.map((cat) => (
