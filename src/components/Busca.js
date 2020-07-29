@@ -32,7 +32,7 @@ class Busca extends React.Component {
 
   starter() {
     const listaDeProdutos = JSON.parse(localStorage.getItem('produtos'));
-    if (listaDeProdutos) {
+    if (listaDeProdutos && listaDeProdutos.length > 0) {
       this.setState({ selecteds: listaDeProdutos });
     }
   }
@@ -67,19 +67,25 @@ class Busca extends React.Component {
 
   handleCart(event) {
     const item = this.state.respostaDaApi.find((produto) => produto.id === event.target.name);
-    if (item.quantity) {
-      item.quantity += 1;
+    const oldCart = JSON.parse(localStorage.getItem('produtos'));
+    let cart;
+    if(!oldCart) {
+      cart = this.state.selecteds;
     } else {
-      item.quantity = 1;
+      cart = oldCart;
     }
-    const cart = this.state.selecteds;
-    if (!this.state.selecteds.includes(item)) {
+    let listId = -1
+    cart.forEach( (product, index) => (product.id === item.id) ? listId = index: -1)
+    if (listId === -1) {
+      item.quantity = 1
       cart.push(item);
+    } else {
+      cart[listId].quantity += 1
     }
     this.setState({ selecteds: cart });
     localStorage.setItem(
       'produtos',
-      JSON.stringify(this.state.selecteds),
+      JSON.stringify(cart),
     );
   }
 
@@ -98,33 +104,46 @@ class Busca extends React.Component {
   }
 
   subtract(e) {
+    const oldCart = JSON.parse(localStorage.getItem('produtos'));
     const arr = this.state.selecteds;
     const item = arr.find((produto) => produto.id === e.target.value);
     const listId = arr.indexOf(item);
     arr.splice(listId, 1);
-    if (item.quantity - 1 > 0) {
-      item.quantity -= 1;
+    item.quantity -= 1;
+    if (item.quantity > 0) {
       arr.splice(listId, 0, item);
     }
+    console.log(this.state.selecteds.length)
+    if(this.state.selecteds.length > 0) {
     this.setState({ selecteds: arr });
-    localStorage.setItem(
-      'produtos',
-      JSON.stringify(this.state.selecteds),
-    );
+    localStorage.setItem('produtos', JSON.stringify(arr));
+    } else {
+      localStorage.clear()
+      this.setState({ selecteds: [] })
+    }
   }
+
+  sizer(arr) {
+    let total = 0
+    arr.forEach(number => total += number.quantity )
+    return total 
+  }
+
 
   render() {
     const { selecteds, respostaDaApi } = this.state;
+    const total = (this.sizer(selecteds))
     return (
       <div className="d-flex">
         <div>
-          <Form QC={selecteds.length} OT={this.Text} OC={this.Cat} OS={this.handleClick} />
+          <Form QC={total} OT={this.Text} OC={this.Cat} OS={this.handleClick} />
         </div>
         <div>
           {respostaDaApi.map((produto) => (
             <div key={produto.id} data-testid="product">
               <img src={produto.thumbnail} alt={produto.title} />
               <h4>{produto.title}</h4>
+              {produto.shipping.free_shipping && <p data-testid='free-shipping'>Frete grátis</p>}
               <p>R${produto.price.toFixed(2)}</p>
               <input
                 type="button"

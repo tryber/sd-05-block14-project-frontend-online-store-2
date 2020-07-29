@@ -11,19 +11,23 @@ class MiniCarrinho extends React.Component {
   }
 
   add(e) {
+    const { quantity, available_quantity } = this.props.lista
     const adding = this.props.plus;
     adding(e);
-    this.setState({ quantity: this.state.quantity + 1 });
+    if(quantity < available_quantity) {
+      this.setState({ quantity: this.state.quantity + 1 });
+    }
   }
 
   sub(e) {
     const subt = this.props.minus;
     subt(e);
     this.setState({ quantity: this.state.quantity - 1 });
+    
   }
 
   render() {
-    const { title, thumbnail, price, id, quantity } = this.props.lista;
+    const { title, thumbnail, price, id, quantity, shipping } = this.props.lista;
     if (this.state.quantity > 0) {
       return (
         <div>
@@ -31,6 +35,7 @@ class MiniCarrinho extends React.Component {
             <li key={thumbnail}>
               <p data-testid="shopping-cart-product-name">{title}</p>
               <img src={thumbnail} alt={title} />
+              {shipping.free_shipping && <p data-testid='free-shipping'>Frete Grátis</p>}
               <p>{price}</p>
               <div>
                 <p>Quantidade:</p>

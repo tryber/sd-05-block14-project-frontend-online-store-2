@@ -23,14 +23,17 @@ class Carrinho extends React.Component {
   }
 
   add(e) {
+    
     const arr = this.state.produto;
     const item = arr.find((produto) => produto.id === e.target.value);
     const listId = arr.indexOf(item);
-    arr.splice(listId, 1);
     item.quantity += 1;
+    if(item.quantity <= item.available_quantity) {
+    arr.splice(listId, 1);
     arr.splice(listId, 0, item);
     this.setState({ produtosSelecionados: arr });
     localStorage.setItem('produtos', JSON.stringify(this.state.produto));
+    }
   }
 
   subtract(e) {
@@ -38,26 +41,39 @@ class Carrinho extends React.Component {
     const item = arr.find((produto) => produto.id === e.target.value);
     const listId = arr.indexOf(item);
     arr.splice(listId, 1);
-    if (item.quantity - 1 > 0) {
+    if (item.quantity != 1 && item.quantity > 0) {
       item.quantity -= 1;
       arr.splice(listId, 0, item);
     }
+    if(this.state.produto.length > 0) {
     this.setState({ produtosSelecionados: arr });
-    localStorage.setItem('produtos', JSON.stringify(this.state.produtos));
+    localStorage.setItem('produtos', JSON.stringify(arr));
+    } else {
+      console.log(localStorage.getItem('produtos'))
+      localStorage.clear()
+      this.setState({ produtosSelecionados: [] })
+    }
+  }
+
+  sizer(arr) {
+    let total = 0
+    arr.forEach(number => total += number.quantity )
+    return total 
   }
 
   render() {
     const { produto } = this.state;
-    if (!produto) {
+    if (!produto || produto.length === 0) {
       return (
         <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
-      );
-    }
+        );
+      }
+    const total = (this.sizer(produto))
 
     return (
       <div>
         <GiShoppingCart />
-        <span data-testid="shopping-cart-size">{produto.length}</span>
+        <span data-testid="shopping-cart-size">{total}</span>
         <div>
           <ul>
             {produto.map((each) => (
