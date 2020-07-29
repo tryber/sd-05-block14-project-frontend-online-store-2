@@ -66,7 +66,7 @@ class Busca extends React.Component {
   }
 
   handleCart(event) {
-    const item = this.state.respostaDaApi.find((produto) => produto.id === event.target.name)
+    const item = this.state.respostaDaApi.find((produto) => produto.id === event.target.name);
     if (item.quantity) {
       item.quantity += 1;
     } else {
@@ -114,13 +114,14 @@ class Busca extends React.Component {
   }
 
   render() {
+    const { selecteds, respostaDaApi } = this.state;
     return (
       <div className="d-flex">
         <div>
-          <Form QC={this.state.selecteds.length} OT={this.Text} OC={this.Cat} OS={this.handleClick}/>
+          <Form QC={selecteds.length} OT={this.Text} OC={this.Cat} OS={this.handleClick} />
         </div>
         <div>
-          {this.state.respostaDaApi.map((produto) => (
+          {respostaDaApi.map((produto) => (
             <div key={produto.id} data-testid="product">
               <img src={produto.thumbnail} alt={produto.title} />
               <h4>{produto.title}</h4>
@@ -136,8 +137,8 @@ class Busca extends React.Component {
           ))}
         </div>
         <div>
-          {this.state.selecteds.map((cada) => (
-            <MiniCarrinho key={cada.id} lista={cada} plus={this.add} minus={this.subtract}/>
+          {selecteds.map((cada) => (
+            <MiniCarrinho key={cada.id} lista={cada} plus={this.add} minus={this.subtract} />
           ))}
         </div>
       </div>

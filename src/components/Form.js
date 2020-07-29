@@ -19,7 +19,7 @@ class Form extends React.Component {
 
   render() {
     const { listaDeCategorias } = this.state;
-    const { OS, OC, OT, QC } = this.props
+    const { OS, OC, OT, QC } = this.props;
     return (
       <div>
         <form>
@@ -27,8 +27,8 @@ class Form extends React.Component {
             Digite algum termo de pesquisa ou escolha uma categoria.
           </h1>
           {/* OT = OnText OC= OnCategory  OS=OnSearch */}
-          <input type="text" name="searchText" onChange={OT} data-testid="query-input"/>
-          <input onClick={OS} type="button" value="Buscar" data-testid="query-button"/>
+          <input type="text" name="searchText" onChange={OT} data-testid="query-input" />
+          <input onClick={OS} type="button" value="Buscar" data-testid="query-button" />
           <Link to="/shopping-cart">
             <GiShoppingCart size={44} data-testid="shopping-cart-button" />
           </Link>
