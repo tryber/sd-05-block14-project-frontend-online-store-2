@@ -6,6 +6,8 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import MiniCarrinho from './MiniCarrinho';
 import Form from './Form';
 import ProductDetail from './ProductDetail';
+import sizer from '../services/sizer';
+import finder from '../services/finder';
 
 class Busca extends React.Component {
   constructor(props) {
@@ -15,13 +17,17 @@ class Busca extends React.Component {
       searchCategoryName: '',
       searchCategoryId: '',
       respostaDaApi: [],
-      produtosSelecionados: [],
+      selecteds: [],
+      quantity: 0,
     };
     this.starter = this.starter.bind(this);
-    this.capturingText = this.capturingText.bind(this);
-    this.capturingCategory = this.capturingCategory.bind(this);
+    this.Text = this.Text.bind(this);
+    this.Cat = this.Cat.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleCart = this.handleCart.bind(this);
+    this.add = this.add.bind(this);
+    this.subtract = this.subtract.bind(this);
+    this.apiRequest = this.apiRequest.bind(this);
   }
 
   componentDidMount() {
@@ -30,13 +36,12 @@ class Busca extends React.Component {
 
   starter() {
     const listaDeProdutos = JSON.parse(localStorage.getItem('produtos'));
-    if (listaDeProdutos) {
-      this.setState({ produtosSelecionados: listaDeProdutos });
+    if (listaDeProdutos && listaDeProdutos.length > 0) {
+      this.setState({ selecteds: listaDeProdutos });
     }
   }
 
-
-  capturingText(event) {
+  Text(event) {
     this.setState({ searchText: event.target.value });
   }
 
@@ -51,8 +56,8 @@ class Busca extends React.Component {
       });
   }
 
-  capturingCategory(event) {
-    this.setState({
+  async Cat(event) {
+    await this.setState({
       searchCategoryName: event.target.innerHTML,
       searchCategoryId: event.target.id,
     });
@@ -65,49 +70,91 @@ class Busca extends React.Component {
   }
 
   handleCart(event) {
-    const item = this.state.respostaDaApi.find(
-      (produto) => produto.id === event.target.name);
-    const cart = this.state.produtosSelecionados;
-    cart.push(item);
-    this.setState({ produtosSelecionados: cart });
+    const item = this.state.respostaDaApi.find((produto) => produto.id === event.target.name);
+    const oldCart = JSON.parse(localStorage.getItem('produtos'));
+    let cart;
+    if (!oldCart) {
+      cart = this.state.selecteds;
+    } else {
+      cart = oldCart;
+    }
+    const listId = finder(cart, item);
+    if (listId === -1) {
+      item.quantity = 1;
+      cart.push(item);
+    } else {
+      cart[listId].quantity += 1;
+    }
+    this.setState({ selecteds: cart });
     localStorage.setItem(
       'produtos',
-      JSON.stringify(this.state.produtosSelecionados),
+      JSON.stringify(cart),
     );
   }
 
+  add(e) {
+    const arr = this.state.selecteds;
+    const item = arr.find((produto) => produto.id === e.target.value);
+    const listId = arr.indexOf(item);
+    item.quantity += 1;
+    if (item.quantity <= item.available_quantity) {
+      arr.splice(listId, 1);
+      arr.splice(listId, 0, item);
+      this.setState({ selecteds: arr });
+      localStorage.setItem(
+      'produtos',
+      JSON.stringify(this.state.selecteds),
+    );
+    }
+  }
+
+  subtract(e) {
+    const arr = this.state.selecteds;
+    const item = arr.find((produto) => produto.id === e.target.value);
+    const listId = arr.indexOf(item);
+    arr.splice(listId, 1);
+    item.quantity -= 1;
+    if (item.quantity > 0) {
+      arr.splice(listId, 0, item);
+    }
+    if (this.state.selecteds.length > 0) {
+      this.setState({ selecteds: arr });
+      localStorage.setItem('produtos', JSON.stringify(arr));
+    } else {
+      localStorage.clear();
+      this.setState({ selecteds: [] });
+    }
+  }
+
   render() {
-    const { respostaDaApi, produtosSelecionados } = this.state;
+    const { selecteds, respostaDaApi } = this.state;
+    const total = (sizer(selecteds));
     return (
       <div className="d-flex">
-        <div>
-          <Form
-            QC={produtosSelecionados.length}
-            OT={this.capturingText}
-            OC={this.capturingCategory}
-            OS={this.handleClick}
-          />
-        </div>
+        <Form QC={total} OT={this.Text} OC={this.Cat} OS={this.handleClick} />
         <div>
           {respostaDaApi.map((produto) => (
             <div key={produto.id} data-testid="product">
               <img src={produto.thumbnail} alt={produto.title} />
-              <h4 >{produto.title}</h4>
+              <h4>{produto.title}</h4>
+              {produto.shipping.free_shipping && <p data-testid="free-shipping">Frete grátis</p>}
               <p>R${produto.price.toFixed(2)}</p>
-
               <input
                 type="button"
                 value="Adicionar"
                 name={produto.id}
                 onClick={this.handleCart}
                 data-testid="product-add-to-cart"
-
               />
             <Link data-testid="product-detail-link" to="/product-detail">VER DETALHES</Link>
             </div>
           ))}
         </div>
-        <MiniCarrinho lista={produtosSelecionados} />
+        <div>
+          {selecteds.map((cada) => (
+            <MiniCarrinho key={cada.id} lista={cada} plus={this.add} minus={this.subtract} />
+          ))}
+        </div>
       </div>
     );
   }

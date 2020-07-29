@@ -19,6 +19,7 @@ class Form extends React.Component {
 
   render() {
     const { listaDeCategorias } = this.state;
+    const { OS, OC, OT, QC } = this.props;
     return (
       <div>
         <form>
@@ -26,21 +27,20 @@ class Form extends React.Component {
             Digite algum termo de pesquisa ou escolha uma categoria.
           </h1>
           {/* OT = OnText OC= OnCategory  OS=OnSearch */}
-          <input type="text" name="searchText" onChange={this.props.OT} data-testid="query-input" />
-          <input onClick={this.props.OS} type="button" value="Buscar" data-testid="query-button" />
+          <input type="text" name="searchText" onChange={OT} data-testid="query-input" />
+          <input onClick={OS} type="button" value="Buscar" data-testid="query-button" />
           <Link to="/shopping-cart">
             <GiShoppingCart size={44} data-testid="shopping-cart-button" />
           </Link>
-          <span data-testid="shopping-cart-product-quantity">{this.props.QC}</span>
+          <span data-testid="shopping-cart-product-quantity">{QC}</span>
         </form>
         <div key="1" className="col-8 text-start">
           {listaDeCategorias.map((cat) => (
             <div key={cat.id}>
-              <button data-testid="category" id={cat.id} onClick={this.props.OC}>{cat.name}</button>
+              <button data-testid="category" id={cat.id} onClick={OC}>{cat.name}</button>
               <br />
             </div>
           ))}
-
         </div>
       </div>
     );
