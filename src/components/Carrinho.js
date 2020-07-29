@@ -78,7 +78,6 @@ class Carrinho extends React.Component {
               />
             ))}
           </ul>
-          <Link data-testid="product-detail-link" to="/product-detail">VER DETALHES</Link>
         </div>
       </div>
     );

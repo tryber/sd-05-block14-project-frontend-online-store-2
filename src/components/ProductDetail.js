@@ -19,7 +19,7 @@ class ProductDetail extends React.Component {
   render() {
     const { produto } = this.state;
     return (
-      <div>DETALHES
+      <div>
         <ul>
           {produto.map((each) => (
             <li>
