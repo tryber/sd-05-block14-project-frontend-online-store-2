@@ -2,6 +2,7 @@ import React from 'react';
 import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { GiShoppingCart } from '../../node_modules/react-icons/gi';
+import { Link } from 'react-router-dom';
 
 class Carrinho extends React.Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class Carrinho extends React.Component {
               </li>
             ))}
           </ul>
+          <Link data-testid="product-detail-link" to="/product-detail">VER DETALHES</Link>
         </div>
       </div>
     );

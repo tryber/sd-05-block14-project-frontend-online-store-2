@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import * as api from '../services/api';
 import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import MiniCarrinho from './MiniCarrinho';
 import Form from './Form';
+import ProductDetail from './ProductDetail';
 
 class Busca extends React.Component {
   constructor(props) {
@@ -101,6 +103,7 @@ class Busca extends React.Component {
                 data-testid="product-add-to-cart"
 
               />
+            <Link data-testid="product-detail-link" to="/product-detail">VER DETALHES</Link>
             </div>
           ))}
         </div>
