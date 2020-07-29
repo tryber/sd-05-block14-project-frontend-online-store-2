@@ -23,7 +23,7 @@ class ProductDetail extends React.Component {
     const { produto, total } = this.state;
     return (
       <div>
-        <ul> 
+        <ul>
           <li>
             <p data-testid="product-detail-name">{produto.title}</p>
             <img src={produto.thumbnail} alt={produto.title} />

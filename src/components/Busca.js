@@ -8,11 +8,7 @@ import Form from './Form';
 // import ProductDetail from './ProductDetail';
 import sizer from '../services/sizer';
 import finder from '../services/finder';
-
-function handleDetails(produto, total) {
-  localStorage.setItem('detail', JSON.stringify(produto));
-  localStorage.setItem('totalProducts', JSON.stringify(total));
-}
+import Categorias from './Categorias';
 
 class Busca extends React.Component {
   constructor(props) {
@@ -131,7 +127,6 @@ class Busca extends React.Component {
     }
   }
 
-
   render() {
     const { selecteds, respostaDaApi } = this.state;
     const total = (sizer(selecteds));
@@ -140,21 +135,7 @@ class Busca extends React.Component {
         <Form QC={total} OT={this.Text} OC={this.Cat} OS={this.handleClick} />
         <div>
           {respostaDaApi.map((produto) => (
-            <div key={produto.id} data-testid="product">
-              <img src={produto.thumbnail} alt={produto.title} />
-              <h4>{produto.title}</h4>
-              {produto.shipping.free_shipping && <p data-testid="free-shipping">Frete grátis</p>}
-              <p>R${produto.price.toFixed(2)}</p>
-              <input
-                type="button"
-                value="Adicionar"
-                name={produto.id}
-                onClick={this.handleCart}
-                data-testid="product-add-to-cart"
-              />
-              <Link data-testid="product-detail-link" to="/product-detail" onClick={() =>
-                handleDetails(produto, total)}>VER DETALHES</Link>
-            </div>
+            <Categorias produto={produto} func={this.handleCart} totalC={total} key={produto.id} />
           ))}
         </div>
         <div>
