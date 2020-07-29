@@ -83,7 +83,7 @@ class Busca extends React.Component {
       cart.push(item);
     } else if (item.quantity < item.available_quantity) {
       cart[listId].quantity += 1;
-    } 
+    }
 
     this.setState({ selecteds: cart });
     localStorage.setItem(
