@@ -29,7 +29,7 @@ class ProductDetail extends React.Component {
     } else {
       cart = [];
     }
-    const index = finder(cart, item)
+    const index = finder(cart, item);
     if (index !== -1) {
       cart[index].quantity += 1;
     } else {
