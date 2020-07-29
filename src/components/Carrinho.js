@@ -33,6 +33,8 @@ class Carrinho extends React.Component {
     arr.splice(listId, 0, item);
     this.setState({ produtosSelecionados: arr });
     localStorage.setItem('produtos', JSON.stringify(this.state.produto));
+    }else {
+      alert("Quantidade indisponível")
     }
   }
 
@@ -67,7 +69,7 @@ class Carrinho extends React.Component {
       return (
         <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
         );
-      }
+      } 
     const total = (this.sizer(produto))
 
     return (
