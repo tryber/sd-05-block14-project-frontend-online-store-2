@@ -8,12 +8,17 @@ class MiniCarrinho extends React.Component {
     this.state = { quantity: this.props.lista.quantity };
     this.add = this.add.bind(this);
     this.sub = this.sub.bind(this);
+    this.starter4 = this.starter4.bind(this)
   }
-  
+
   componentDidUpdate(prevProps, prevState) {
-    if(this.state.quantity != prevState.quantity) {
-      this.setState({ quantity: this.state.quantity });
+    if (this.state.quantity !== prevState.quantity) {
+      this.starter4();
     }
+  }
+
+  starter4() {
+    this.setState({ quantity: this.state.quantity });
   }
 
   add(e) {
@@ -32,7 +37,7 @@ class MiniCarrinho extends React.Component {
 
   render() {
     const { title, thumbnail, price, id, quantity, shipping } = this.props.lista;
-      return (
+    return (
         <div>
           <ul key="lista">
             <li key={thumbnail}>
@@ -54,7 +59,7 @@ class MiniCarrinho extends React.Component {
           </ul>
         </div>
       );
-    }
+  }
 }
 
 export default MiniCarrinho;

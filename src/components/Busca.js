@@ -83,10 +83,8 @@ class Busca extends React.Component {
       cart.push(item);
     } else if (item.quantity < item.available_quantity) {
       cart[listId].quantity += 1;
-      } else {
-        window.alert('Quantidade excedida');
-      }
-    
+    } 
+
     this.setState({ selecteds: cart });
     localStorage.setItem(
       'produtos',
@@ -107,8 +105,6 @@ class Busca extends React.Component {
       'produtos',
       JSON.stringify(this.state.selecteds),
     );
-    } else {
-      window.alert('Quantidade excedida');
     }
   }
 
