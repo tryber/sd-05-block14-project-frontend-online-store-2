@@ -1,11 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import * as api from '../services/api';
 import '../App.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import MiniCarrinho from './MiniCarrinho';
 import Form from './Form';
-// import ProductDetail from './ProductDetail';
 import sizer from '../services/sizer';
 import finder from '../services/finder';
 import Categorias from './Categorias';
